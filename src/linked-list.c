@@ -120,3 +120,76 @@ int remove_item(node_t ** head, int val) {
     free(temp);
     return retval;
 }
+int main() {
+    int choice, val, index, retval;
+    head = NULL;
+
+    while (1) {
+        printf("\nMenu:\n");
+        printf("1. Add element at the end\n");
+        printf("2. Add element at the beginning\n");
+        printf("3. Remove first element\n");
+        printf("4. Remove last element\n");
+        printf("5. Remove element by index\n");
+        printf("6. Remove element by value\n");
+        printf("7. Display list\n");
+        printf("8. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value to add at the end: ");
+                scanf("%d", &val);
+                if (head == NULL) {
+                    head = (node_t *) malloc(sizeof(node_t));
+                    head->data = val;
+                    head->next = NULL;
+                } else {
+                    push(head, val);
+                }
+                break;
+            case 2:
+                printf("Enter value to add at the beginning: ");
+                scanf("%d", &val);
+                push_start(&head, val);
+                break;
+            case 3:
+                retval = remove_first(&head);
+                if (retval == -1) printf("List is empty.\n");
+                else printf("Removed first element: %d\n", retval);
+                break;
+            case 4:
+                if (head == NULL) printf("List is empty.\n");
+                else {
+                    retval = remove_last(head);
+                    printf("Removed last element: %d\n", retval);
+                }
+                break;
+            case 5:
+                printf("Enter index to remove: ");
+                scanf("%d", &index);
+                retval = remove_by_index(&head, index);
+                if (retval == -1) printf("Index out of range.\n");
+                else printf("Removed element at index %d: %d\n", index, retval);
+                break;
+            case 6:
+                printf("Enter value to remove: ");
+                scanf("%d", &val);
+                retval = remove_item(&head, val);
+                if (retval == -1) printf("Value not found in the list.\n");
+                else printf("Removed element with value %d\n", retval);
+                break;
+            case 7:
+                printf("Current list:\n");
+                traverse(head);
+                break;
+            case 8:
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+    return 0;
+}
