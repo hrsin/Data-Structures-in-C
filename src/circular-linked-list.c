@@ -4,7 +4,6 @@ typedef struct Node {
     int data;
     struct Node *next;
 } node;
-
 node *insert_beg(node *head) {
     int data;
     node *ptr;
