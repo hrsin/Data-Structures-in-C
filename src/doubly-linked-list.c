@@ -43,9 +43,12 @@ node *delete_after(node *head, int val) {
         printf("No node after the value.\n");
         return head;
     }
+
     printf("The node to be deleted is: %d\n", temp->data);
     iter->next = temp->next;
-    temp->next->prev = iter;
+    if (temp->next != NULL) {
+        temp->next->prev = iter;
+    }
     free(temp);
     return head;
 }
@@ -53,7 +56,6 @@ void display(node *head) {
     node *iter = head;
     if (head == NULL) {
         printf("List is empty, nothing to display.\n");
-        return head;
     }
     while(iter != NULL) {
         printf("%d->", iter->data);
@@ -65,7 +67,7 @@ int main() {
     int choice, data;
     node *head = NULL;
     while(1) {
-        printf("List of Operations: \n1. Insert at the beginning \n2. Deleting after the value\n3. Display\n4. Exit\n");
+        printf("List of Operations: \n1. Insert at the beginning \n2. Deleting after the value\n3. Display\n4. Exit\nYour Choice: ");
         scanf("%d", &choice);
         switch(choice) {
             case 1:

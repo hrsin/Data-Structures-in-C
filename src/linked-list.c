@@ -18,7 +18,7 @@ node_t *head = NULL;
 */
 void traverse(node_t *head) {
     node_t *current = head;
-    whille (current != NULL) {
+    while (current != NULL) {
         printf("%d\n", current->data);
         current = current->next;
     }

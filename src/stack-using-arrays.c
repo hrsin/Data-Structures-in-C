@@ -27,15 +27,13 @@ void push(int st[], int data) {
     3. set top = top - 1
     4. Exit
 */
-int pop(int st[]) {
-    int del;
-    if ( top=-1) {
+void pop(int st[]) {
+    if (top==-1) {
         printf("Underflow, No elements in the stacks\n");
-        return -1;
+    } else {
+        printf("The element %d is deleted\n", st[top]);
+        top--;
     }
-    del = st[top];
-    top--;
-    return del;
 }
 
 /* PEEK operation to display the top element of the stack
@@ -77,10 +75,7 @@ int main() {
                 push(stack, data);
                 break;
             case 2:
-                data = pop(stack);
-                if (data != -1) {
-                    printf("The deleted element is %d\n", data);
-                }
+                pop(stack);
                 break;
             case 3:
                 data = peek(stack);

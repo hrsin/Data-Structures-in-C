@@ -4,9 +4,6 @@ typedef struct Stack {
     int data;
     struct Stack *next;
 } node;
-
-
-
 /* Push Operation on the stack
     * 1. Allocate memory for the new node.
     * 2. set new node =  data.
@@ -22,14 +19,13 @@ typedef struct Stack {
 node *push(node *top) {
     int val;
     node *new_node = (node *)malloc(sizeof(node));
+    if (new_node == NULL) {
+        printf("Memory allocation failed.\n");
+    }
     printf("Enter the data you want to push: ");
     scanf("%d", &val);
     new_node->data = val;
-    if (top == NULL) {
-        new_node->next = NULL;
-    } else {
-        new_node->next = top;
-    }
+    new_node->next = top;
     top = new_node;
     return top;
 }
@@ -43,12 +39,11 @@ node *push(node *top) {
     * 5. Exit.
 */
 node *pop(node *top) {
-    int data;
     node *temp = top;
     if (top == NULL) {
         printf("Stack is empty \n");
     } else {
-        printf("The deleted element is: %d", top->data);
+        printf("The deleted element is: %d\n", top->data);
         top = top->next;
         free(temp);
     }
@@ -59,9 +54,7 @@ node *display(node *top) {
     if (top == NULL) {
         printf("Stack is empty.\n");
     }
-    if (top->next == NULL) {
-        printf("%d->NULL", top->data);
-    } else {
+    else {
         while(iter != NULL) {
             printf("%d->", iter->data);
             iter = iter->next;
@@ -70,13 +63,12 @@ node *display(node *top) {
     }
     return top;
 }
-node *peek(node *top) {
+void peek(node *top) {
     if (top == NULL) {
         printf("Stack is empty.\n");
     } else {
         printf("The top element is: %d\n", top->data);
     }
-    return top;
 }
 int main() {
     int choice;
@@ -91,13 +83,13 @@ int main() {
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-                push(top);
+                top = push(top);
                 break;
             case 2:
-                pop(top);
+                top = pop(top);
                 break;
             case 3:
-                display(top);
+                top = display(top);
                 break;
             case 4:
                 peek(top);

@@ -1,53 +1,82 @@
 #include <stdio.h>
 #include <stdlib.h>
-int main() 
-{
-    int len,choice;
+
+void insert_pos(int arr[], int *num, int n);
+void insert_mid(int arr[], int *num);
+void delete_pos(int arr[], int *num);
+
+int main() {
+    int len, choice;
+    
     printf("Enter the length of the array: ");
     scanf("%d", &len);
+    
     int arr[len];
+    int num = 0;  // Keeps track of the current number of elements in the array
+
     printf("\nOperations set\n");
-    printf("1. Insert at the position\n");
+    printf("1. Insert at a specific position\n");
     printf("2. Insert at the middle\n");
-    printf("3. Delete from the beginning\n");
+    printf("3. Delete from a specified position\n");
+    printf("Enter your choice: ");
     scanf("%d", &choice);
+    
     switch(choice) {
         case 1:
-            insert_pos(arr[len]);
+            insert_pos(arr, &num, len);
             break;
         case 2:
-            insert_mid(arr[len]);
+            insert_mid(arr, &num);
             break;
         case 3:
-            delete_pos(arr[len]);
+            delete_pos(arr, &num);
             break;
         default:
             printf("Invalid choice\n");
     }
+    
     return 0;
 }
-int insert_pos(n) {
-    int arr[n];
-    int i, pos, val, num;
+
+void insert_pos(int arr[], int *num, int n) {
+    int pos, val, i;
+    
+    printf("Enter the current number of elements in the array: ");
+    scanf("%d", num);
+    
+    if (*num > n) {
+        printf("Error: Number of elements exceeds array length.\n");
+        return;
+    }
+    
     printf("Enter the elements of the array: ");
-    scanf("%d", &num);
-    for(i = 0; i < num; i++) {
+    for(i = 0; i < *num; i++) {
         scanf("%d", &arr[i]);
     }
-    printf("\nEnter the position to insert:");
+    
+    printf("Enter the position to insert: ");
     scanf("%d", &pos);
-    printf("\nEnter the value to insert:");
-    scanf("%d", &val);
-    for(i=num-1; i>pos-1;i--) {
-        arr[i+1] = arr[i];
+    
+    if (pos < 1 || pos > *num + 1) {
+        printf("Error: Invalid position.\n");
+        return;
     }
-    arr[pos-1] = val;
-    num++;
-    printf("\nArray after insertion is: ");
-    for(i = 0; i < num; i++) {
+    
+    printf("Enter the value to insert: ");
+    scanf("%d", &val);
+    
+    for(i = *num; i >= pos; i--) {
+        arr[i] = arr[i - 1];
+    }
+    
+    arr[pos - 1] = val;
+    (*num)++;
+    
+    printf("Array after insertion: ");
+    for(i = 0; i < *num; i++) {
         printf("%d ", arr[i]);
     }
-    return 0;
+    printf("\n");
 }
 /* Algorithm to insert an element at the middle of an array
     * step 1: Set i=n
@@ -58,53 +87,66 @@ int insert_pos(n) {
     * step 5: increment num
     * step 6: set arr[mid-1]=val
 */
-int insert_mid(n) {
-    int arr[n];
-    int i, pos, val, num, mid;
-    printf("Enter the number of elements you want to insert: ");
-    scanf("%d", & num);
-    if(num%2==0) {
-        mid=num/2;
-    } else {
-        mid = (num+1)/2;
-    }
-    for (i = 0; i<num-1; i++) {
+void insert_mid(int arr[], int *num) {
+    int val, i, mid;
+    
+    printf("Enter the current number of elements in the array: ");
+    scanf("%d", num);
+    
+    printf("Enter the elements of the array: ");
+    for(i = 0; i < *num; i++) {
         scanf("%d", &arr[i]);
-    }
-    printf("Enter the value you want insert at the middle: ");
-    scanf("%d", &val);
-    for (i=num-1; i>=mid-1;i --) {
-        arr[i+1] = arr[i];
-    }
-    num++;
-    arr[mid-1] = val;
-    return 0;
-}
-int delete_pos(int arr[]) {
-    int i, pos, num, val;
-    printf("Enter the number of elements you want to insert: ");
-    scanf("%d", &num);
-    for (i = 0; i < num; i++) {
-        scanf("%d", &arr[i]);
-    }
-    printf("Enter the position you want to delete: ");
-    scanf("%d", &pos);
-    if (pos>num+1) {
-        printf("Invalid position\n");
-    } else {
-        val = arr[pos-1];
-        for (i=pos-1;i<num-1;i++) {
-            arr[i]=arr[i+1];
-        }
-        num--;
-        printf("Delete element is: %d\n", val);
-        printf("Array after deletion is: ");
-        for (i=0;i<num;i++) {
-            printf("%d ", arr[i]);
-        }
     }
     
+    mid = (*num) / 2;
+    
+    printf("Enter the value to insert at the middle: ");
+    scanf("%d", &val);
+    
+    for(i = *num; i > mid; i--) {
+        arr[i] = arr[i - 1];
+    }
+    
+    arr[mid] = val;
+    (*num)++;
+    
+    printf("Array after insertion: ");
+    for(i = 0; i < *num; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
 }
-
-
-
+void delete_pos(int arr[], int *num) {
+    int pos, i;
+    
+    printf("Enter the current number of elements in the array: ");
+    scanf("%d", num);
+    
+    printf("Enter the elements of the array: ");
+    for(i = 0; i < *num; i++) {
+        scanf("%d", &arr[i]);
+    }
+    
+    printf("Enter the position to delete: ");
+    scanf("%d", &pos);
+    
+    if (pos < 1 || pos > *num) {
+        printf("Error: Invalid position.\n");
+        return;
+    }
+    
+    int val = arr[pos - 1];
+    
+    for(i = pos - 1; i < *num - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+    
+    (*num)--;
+    
+    printf("Deleted element: %d\n", val);
+    printf("Array after deletion: ");
+    for(i = 0; i < *num; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
