@@ -14,7 +14,7 @@ void postorder(node *);
 node *getnode();
 
 int main() {
-    node *root = NULL;  // Root node of the binary tree
+    node *root = NULL;  // Root node of the binary root
     int choice, value;
 
     while (1) {
@@ -108,4 +108,32 @@ void postorder(node *root) {
         postorder(root->right);
         printf("%d ", root->data);
     }
+}
+
+node* deleteNode(node *root, int val) {
+    if (root == NULL) return NULL;
+    if (val < root->data) {
+        root->left = deleteNode(root->left, val);
+    } else if (val > root->data) {
+        root->right = deleteNode(root->right, val);
+    } else {
+        if (root->left == NULL) {
+            node *temp = root->right;
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            node *temp = root->left;
+            free(root);
+            return temp;
+        }
+        node *temp = findLargestNode(root->left);
+        root->data = temp->data;
+        root->left = deleteNode(root->left, temp->data);
+    }
+    return root;
+}
+node* findLargestNode(node *root) {
+    while (root->right != NULL)
+        root = root->right;
+    return root;
 }
